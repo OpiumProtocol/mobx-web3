@@ -1,0 +1,56 @@
+{
+  "name": "@opiumteam/mobx-web3",
+  "version": "1.0.0",
+  "description": "Opium mobx-web3",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "build": "tsc"
+  },
+  "license": "ISC",
+  "author": "Opium Team <hi@opium.team>",
+  "contributors": [
+    {
+      "name": "Ali Nuraldin",
+      "email": "ali@opium.team"
+    },
+    {
+      "name": "Riccardo Biosas",
+      "email": "rbios@protonmail.com"
+    }
+  ],
+  "files": [
+    "/lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpiumProtocol/mobx-web3.git"
+  },
+  "dependencies": {
+    "@browser-bunyan/console-formatted-stream": "^1.5.3",
+    "@types/browser-bunyan": "^0.4.5",
+    "@types/bunyan": "^1.8.6",
+    "@walletconnect/web3-provider": "^1.0.0-beta.47",
+    "browser-bunyan": "^1.5.3",
+    "csstype": "^3.0.5",
+    "fortmatic": "^2.0.6",
+    "mobx": "^5.15.4",
+    "typescript": "^3.9.2",
+    "web3": "^1.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.5",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.5.1",
+    "husky": "^4.2.5",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run build"
+    }
+  }
+}

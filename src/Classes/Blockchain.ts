@@ -1,5 +1,5 @@
 // Theirs
-import Web3Modal, {getProviderInfo} from '@opiumteam/web3modal/dist/index'
+import Web3Modal, { getProviderInfo } from '@opiumteam/web3modal'
 import { observable, computed, action } from 'mobx'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
@@ -7,6 +7,7 @@ import Fortmatic from 'fortmatic'
 import Web3 from 'web3'
 import { Subscription } from 'web3-core-subscriptions'
 import { BlockHeader } from 'web3-eth'
+
 // Constants
 import { AuthType, ProviderName, ProviderType, ClientName } from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'

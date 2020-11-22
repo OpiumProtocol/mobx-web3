@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@browser-bunyan/console-formatted-stream": "^1.5.3",
+    "@opiumteam/web3modal": "^1.9.1",
     "@types/browser-bunyan": "^0.4.5",
     "@types/bunyan": "^1.8.6",
     "@walletconnect/web3-provider": "^1.0.0-beta.47",

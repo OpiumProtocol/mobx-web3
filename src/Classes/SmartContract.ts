@@ -4,7 +4,8 @@ import { Contract } from 'web3-eth-contract'
 import { AbiItem } from 'web3-utils'
 // Constants
 import IERC20_ABI from '../Constants/ABI/IERC20.json'
-import { IBlockchain } from '../Constants/Types/blockchain'
+
+import Blockchain from './Blockchain'
 
 const MAX_UINT256 = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
 
@@ -12,9 +13,9 @@ export default class SmartContract {
   protected _web3: Web3
   protected _contract: Contract
   protected _log: any
-  protected _blockchain: IBlockchain
+  protected _blockchain: Blockchain
 
-  constructor(jsonInterface: AbiItem[], address: string, blockchain: IBlockchain, logger: any) {
+  constructor(jsonInterface: AbiItem[], address: string, blockchain: Blockchain, logger: any) {
     this._blockchain = blockchain
     this._log = logger
     const web3 = this._blockchain.getWeb3()
@@ -28,7 +29,7 @@ export default class SmartContract {
 }
 
 export class IERC20 extends SmartContract {
-  constructor(address: string, blockchain: IBlockchain, logger: any) {
+  constructor(address: string, blockchain: Blockchain, logger: any) {
     super(IERC20_ABI as AbiItem[], address, blockchain, logger)
   }
 

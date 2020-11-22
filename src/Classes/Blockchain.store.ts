@@ -7,14 +7,14 @@ import {
   EIP712Message,
   AuthType,
   PersistentSession,
-  IBlockchain
-  
 } from '../Constants/Types/blockchain'
+
+import Blockchain from './Blockchain'
 
 const PERSISTENT_SESSION_LOCAL_STORAGE_KEY = 'persistentSession'
 
 export class BlockchainStore {
-  protected _blockchain: IBlockchain
+  protected _blockchain: Blockchain
   protected _log: any
   public subscribeNewBlockHeaders: any
   public watchTx: any

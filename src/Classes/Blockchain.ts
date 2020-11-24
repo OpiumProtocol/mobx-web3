@@ -344,6 +344,7 @@ class Blockchain {
       ) {
         this._log.debug('Address changed')
         this._logoutCallback()
+        this.clearWallet()
       }
 
       const networkId = await web3.eth.net.getId()

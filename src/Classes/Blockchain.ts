@@ -31,6 +31,7 @@ class Blockchain {
   protected _log: any
   protected _injectedWalletChangesRefreshTime: number = 1000  
   @observable protected _networkId = 0
+  @observable protected _requiredNetworkId = 0
   public providerName: ProviderName | null = null
   public providerType: ProviderType | null = null
 
@@ -49,7 +50,7 @@ class Blockchain {
 
   @computed 
   get correctNetwork() {
-    return this._networkId === this._networkId
+    return this._networkId === this._requiredNetworkId
   }
 
   @computed
@@ -60,7 +61,7 @@ class Blockchain {
 
   @computed
   get requiredNetworkName() {
-    return NETWORK_NAMES[this._networkId]
+    return NETWORK_NAMES[this._requiredNetworkId]
   }
 
   constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: any) {
@@ -84,6 +85,8 @@ class Blockchain {
     })
 
     this._networkId = networkId
+    this._requiredNetworkId = networkId
+
     this._log = logger
 
     this._web3ws = new Web3(
@@ -274,6 +277,8 @@ class Blockchain {
         // TODO: when implemented this._provider.wc.close
         break
     }
+
+    // TODO: Clear provider, types, web3, etc
   }
   
   public subscribeNewBlockHeaders = (_callback: () => void) => {

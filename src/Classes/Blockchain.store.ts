@@ -25,6 +25,11 @@ export class BlockchainStore {
   }
 
   @computed
+  get requiredNetworkName () {
+    return this._blockchain.requiredNetworkName
+  }
+
+  @computed
   get correctNetwork () {
     return this._blockchain.correctNetwork
   }

@@ -1,5 +1,5 @@
 // Theirs
-import Web3Modal, { getProviderInfo } from '@opiumteam/web3modal'
+import Web3Modal, { getProviderInfo } from 'web3modal'
 import { observable, computed, action } from 'mobx'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'

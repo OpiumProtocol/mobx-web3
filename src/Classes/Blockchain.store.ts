@@ -60,13 +60,10 @@ export class BlockchainStore {
   /** GENERAL */
   public registerCallbacks = (
     sessionLoadedCallback: () => void,
-    sessionPreparationCallback: () => void,
-    logoutCallback: () => void
+    sessionPreparationCallback: () => void
   ) => {
     this._sessionLoadedCallback = sessionLoadedCallback
     this._sessionPreparationCallback = sessionPreparationCallback
-
-    this._blockchain.registerLogoutCallback(logoutCallback)
   }
 
   /** BLOCKCHAIN ACTIONS */

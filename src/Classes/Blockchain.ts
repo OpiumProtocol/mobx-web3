@@ -46,8 +46,6 @@ class Blockchain {
   @observable public web3Connected: boolean = false
   @observable public address: string = ''
 
-  private _logoutCallback = () => {}
-
   @computed 
   get correctNetwork() {
     return this._networkId === this._requiredNetworkId
@@ -114,6 +112,9 @@ class Blockchain {
     // Register onConnect callback
     this._web3Modal.on('connect', async (provider: any) => {
       this._log.debug('web3Modal.on(connect)')
+      // Clear wallet in case was already connected
+      this.clearWallet()
+      // Initialize web3modal related variables
       await this._initWeb3Modal(provider)
       callback()
     })
@@ -122,11 +123,6 @@ class Blockchain {
     if (this._web3Modal.cachedProvider) {
       await this._web3Modal.connect()
     }
-  }
-
-  public registerLogoutCallback(callback: () => void) {
-    this._log.debug('registerLogoutCallback()')
-    this._logoutCallback = callback
   }
 
   // General
@@ -348,8 +344,7 @@ class Blockchain {
         accounts[0].toLowerCase() !== this.address
       ) {
         this._log.debug('Address changed')
-        this._logoutCallback()
-        this.clearWallet()
+        this.address = accounts[0].toLowerCase()
       }
 
       const networkId = await web3.eth.net.getId()

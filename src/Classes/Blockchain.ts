@@ -11,6 +11,7 @@ import { BlockHeader } from 'web3-eth'
 // Constants
 import { AuthType, ProviderName, ProviderType, ClientName } from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'
+import { Logger } from './../utils/logger'
 
 const getWalletName = (clientWallet: string): ClientName => {
   switch (clientWallet) {
@@ -28,7 +29,7 @@ class Blockchain {
   protected _provider: any | null = null
   protected _web3ws: Web3
   protected _subscription: Subscription<BlockHeader> | null = null
-  protected _log: any
+  protected _log: Logger
   protected _injectedWalletChangesRefreshTime: number = 1000  
   @observable protected _networkId = 0
   @observable protected _requiredNetworkId = 0
@@ -62,7 +63,7 @@ class Blockchain {
     return NETWORK_NAMES[this._requiredNetworkId]
   }
 
-  constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: any) {
+  constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
       network: networkName,
@@ -160,7 +161,8 @@ class Blockchain {
           }
           return clearInterval(intervalId)
         } catch (e) {
-          this._log.error(e)
+          const error: Error = e
+          this._log.error(error, 'watchTx() interval: Internal error')
         }
       }, 1000) as unknown as number // Once per second
     })
@@ -280,7 +282,7 @@ class Blockchain {
   public subscribeNewBlockHeaders = (_callback: () => void) => {
     this._log.debug('subscribeNewBlockHeaders()')
     if (this._subscription) {
-      this._log.error('Already subscribed')
+      this._log.warn('Already subscribed')
       return
     }
 
@@ -288,20 +290,20 @@ class Blockchain {
       'newBlockHeaders',
       (error, blockHeader) => {
         if (error) {
-          this._log.error(error.message)
+          this._log.error(error, 'subscribe newBlockHeaders: Internal error')
         }
       }
     )
     
     this._subscription = subscription
     subscription.on('data', _callback)
-    subscription.on('error', error => console.error('Error while fetching block'))
+    subscription.on('error', error => this._log.error(error, 'subscription: Error while fetching block'))
   }
 
   public unsubscribeNewBlockHeaders() {
     this._log.debug('unsubscribeNewBlockHeaders()')
     if (!this._subscription) {
-      this._log.error('Not subscribed yet')
+      this._log.warn('Not subscribed yet')
       return
     }
 

@@ -8,6 +8,7 @@ import {
   AuthType,
   PersistentSession,
 } from '../Constants/Types/blockchain'
+import { Logger } from './../utils/logger'
 
 import Blockchain from './Blockchain'
 
@@ -15,7 +16,7 @@ const PERSISTENT_SESSION_LOCAL_STORAGE_KEY = 'persistentSession'
 
 export class BlockchainStore {
   protected _blockchain: Blockchain
-  protected _log: any
+  protected _log: Logger
   public subscribeNewBlockHeaders: any
   public watchTx: any
 
@@ -47,7 +48,7 @@ export class BlockchainStore {
   private _sessionLoadedCallback = () => {}
   private _sessionPreparationCallback = () => {}
 
-  constructor (blockchain: any, logger: any) {
+  constructor (blockchain: any, logger: Logger) {
     this._blockchain = blockchain
     this._log = logger
     this.subscribeNewBlockHeaders = this._blockchain.subscribeNewBlockHeaders
@@ -92,7 +93,7 @@ export class BlockchainStore {
     try {
       await this._blockchain.connectTo(authType)
     } catch (e) {
-      this._log.error(e, 'Error while connecting')
+      this._log.error(e, 'login(): Error while connecting')
     }
   }
 

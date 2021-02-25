@@ -8,7 +8,9 @@ export type EIP712Message = {
 export enum AuthType {
   WALLET_CONNECT = 'walletconnect',
   INJECTED = 'injected',
-  FORTMATIC = 'fortmatic'
+  FORTMATIC = 'fortmatic',
+  COINBASE = 'custom-coinbase',
+  MEW_CONNECT = 'mewconnect'
 }
 
 export enum ProviderName {

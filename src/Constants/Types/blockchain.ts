@@ -18,6 +18,7 @@ export enum ProviderName {
   WalletConnect = 'WalletConnect',
   Trust = 'Trust',
   Fortmatic = 'Fortmatic',
+  'MEW wallet' = 'MEW wallet',
   Cipher = 'Cipher', // Crashes
   Coinbase = 'Coinbase', // Doesn't support
   Dapper = 'Dapper', // Doesn't support

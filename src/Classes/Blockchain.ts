@@ -1,19 +1,18 @@
 // Theirs
-import Web3Modal, { getProviderInfo } from 'web3modal'
-import { observable, computed, action } from 'mobx'
-import { WalletLink } from 'walletlink'
+import Web3Modal, {getProviderInfo} from 'web3modal'
+import {action, computed, observable} from 'mobx'
+import {WalletLink} from 'walletlink'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Fortmatic from 'fortmatic'
 import Web3 from 'web3'
-import { Subscription } from 'web3-core-subscriptions'
-import { BlockHeader } from 'web3-eth'
+import {Subscription} from 'web3-core-subscriptions'
+import {BlockHeader} from 'web3-eth'
 import MewConnect from '@myetherwallet/mewconnect-web-client'
-
 // Constants
-import { AuthType, ProviderName, ProviderType, ClientName } from '../Constants/Types/blockchain'
+import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'
-import { Logger } from './../utils/logger'
+import {Logger} from './../utils/logger'
 
 const getWalletName = (clientWallet: string): ClientName => {
   switch (clientWallet) {
@@ -69,9 +68,15 @@ class Blockchain {
     appName: 'name',
     appLogoUrl: 'logo',
     darkMode: false,
-  })
+  });
 
   constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
+
+    const walletLinkProvider = this._walletLink.makeWeb3Provider(
+        `https://mainnet.infura.io/v3/${infuraId}`,
+        networkId,
+    )
+
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
       network: networkName,
@@ -91,17 +96,13 @@ class Blockchain {
         'custom-coinbase': {
           display: {
             logo: 'logo',
-            name: 'Wallet Link',
-            description: 'Scan with WalletLink to connect',
+            name: 'Coinbase',
+            description: 'Scan with Coinbase to connect',
           },
-          package: this._walletLink,
-          connector: async (providerPackage, options) => {
-            const provider = providerPackage.makeWeb3Provider(
-              `https://mainnet.infura.io/v3/${infuraId}`,
-              networkId,
-            )
+          package: walletLinkProvider,
+          connector: async (provider, options) => {
             await provider.enable()
-    
+
             return provider
           },
         },
@@ -112,12 +113,12 @@ class Blockchain {
           }
         }
       }
-    })
+    });
 
     this._networkId = networkId
     this._requiredNetworkId = networkId
 
-    this._log = logger
+    this._log = logger;
 
     this._web3ws = new Web3(
       new Web3.providers.WebsocketProvider(infuraWs)
@@ -125,7 +126,9 @@ class Blockchain {
     // subscribe to close
     this._web3Modal.on('close', () => {
       // this._log.debug('Web3Modal Modal Closed') // modal has closed
-    })
+    });
+
+    this._web3ws
   }
 
   // Web3Modal
@@ -144,6 +147,7 @@ class Blockchain {
     // Register onConnect callback
     this._web3Modal.on('connect', async (provider: any) => {
       this._log.debug('web3Modal.on(connect)')
+
       // Clear wallet in case was already connected
       this.clearWallet()
       // Initialize web3modal related variables
@@ -299,12 +303,16 @@ class Blockchain {
     clearInterval(this._periodicalCheckIntervalId)
 
     // Clear cached provider
-    this._web3Modal.clearCachedProvider()
+    this._web3Modal.clearCachedProvider();
 
+    console.log('this.providerName', this.providerName);
     switch (this.providerName) {
       case ProviderName.WalletConnect:
         // TODO: when implemented this._provider.wc.close
-        break
+        break;
+      case ProviderName["MEW wallet"]:
+        this._provider.disconnect();
+        break;
     }
 
     // TODO: Clear provider, types, web3, etc
@@ -345,7 +353,8 @@ class Blockchain {
   // Web3
   private async _initWeb3Modal(provider: any) {
     this._log.debug('_initWeb3Modal()')
-    const providerInfo = getProviderInfo(provider)
+    const providerInfo = getProviderInfo(provider);
+
     this.providerName = Object.keys(ProviderName).indexOf(providerInfo.name) !== -1 ? providerInfo.name as ProviderName : ProviderName.Unknown
     this.providerType = Object.keys(ProviderType).indexOf(providerInfo.type) !== -1 ? providerInfo.type as ProviderType : ProviderType.unknown
 

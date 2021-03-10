@@ -117,6 +117,12 @@ export class BlockchainStore {
     // Remove WalletConnect session if exists
     localStorage.removeItem('walletconnect')
 
+    // Remove WalletLink session if exists
+    localStorage.removeItem('-walletlink:https://www.walletlink.org:session:id')
+    localStorage.removeItem('-walletlink:https://www.walletlink.org:session:secret')
+    localStorage.removeItem('-walletlink:https://www.walletlink.org:session:linked')
+    localStorage.removeItem('-walletlink:https://www.walletlink.org:Addresses')
+    
     // localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER');
   }
 

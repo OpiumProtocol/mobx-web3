@@ -27,6 +27,19 @@ interface WalletLinkOptions {
   networkId: number;
 }
 
+interface WalletLinkOptions {
+  /** Application name */
+  appName: string;
+  /** @optional Application logo image URL; favicon is used if unspecified */
+  appLogoUrl?: string | null;
+  /** @optional Use dark theme */
+  darkMode?: boolean;
+  /** @required Your Infura account ID */
+  infuraId: string;
+  /** @optional Network ID to connect to */
+  networkId: number;
+}
+
 const getWalletName = (clientWallet: string): ClientName => {
   switch (clientWallet) {
     case 'The Art Exchange':
@@ -79,19 +92,13 @@ class Blockchain {
     return NETWORK_NAMES[this._requiredNetworkId]
   }
 
-  private _walletLink = new WalletLink({
-    appName: 'name',
-    appLogoUrl: 'logo',
-    darkMode: false,
-  });
-
   constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
-
+    
     this._ethereum = this._walletLink.makeWeb3Provider(
         `https://mainnet.infura.io/v3/${infuraId}`,
         networkId,
-    );
-
+    )
+    
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
       network: networkName,
@@ -109,6 +116,7 @@ class Blockchain {
           }
         },
         'custom-walletlink': {
+
           display: {
             logo: "logo",
             name: "WalletLink",
@@ -123,8 +131,8 @@ class Blockchain {
           },
           package: WalletLink,
           connector: async (
-              ProviderPackage: any,
-              options: WalletLinkOptions
+            ProviderPackage: any,
+            options: WalletLinkOptions
           ) => {
             const { appName, infuraId, networkId } = options;
             const walletLink = new WalletLink({

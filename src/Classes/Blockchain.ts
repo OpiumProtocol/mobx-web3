@@ -14,6 +14,19 @@ import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Typ
 import NETWORK_NAMES from '../Constants/networks'
 import {Logger} from './../utils/logger'
 
+interface WalletLinkOptions {
+  /** Application name */
+  appName: string;
+  /** @optional Application logo image URL; favicon is used if unspecified */
+  appLogoUrl?: string | null;
+  /** @optional Use dark theme */
+  darkMode?: boolean;
+  /** @required Your Infura account ID */
+  infuraId: string;
+  /** @optional Network ID to connect to */
+  networkId: number;
+}
+
 const getWalletName = (clientWallet: string): ClientName => {
   switch (clientWallet) {
     case 'The Art Exchange':
@@ -64,19 +77,7 @@ class Blockchain {
     return NETWORK_NAMES[this._requiredNetworkId]
   }
 
-  private _walletLink = new WalletLink({
-    appName: 'name',
-    appLogoUrl: 'logo',
-    darkMode: false,
-  });
-
   constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
-
-    const walletLinkProvider = this._walletLink.makeWeb3Provider(
-        `https://mainnet.infura.io/v3/${infuraId}`,
-        networkId,
-    )
-
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
       network: networkName,
@@ -93,17 +94,32 @@ class Blockchain {
             key: fortmaticKey
           }
         },
-        'custom-coinbase': {
+        "custom-walletlink": {
           display: {
-            logo: 'logo',
-            name: 'Coinbase',
-            description: 'Scan with Coinbase to connect',
+            logo: "logo",
+            name: "WalletLink",
+            description: "Scan with WalletLink to connect",
           },
-          package: walletLinkProvider,
-          connector: async (provider, options) => {
-            await provider.enable()
-
-            return provider
+          options: {
+            appName: "name",
+            appLogoUrl: "logo",
+            darkMode: false,
+            infuraId,
+            networkId,
+          },
+          package: WalletLink,
+          connector: async (
+            ProviderPackage: any,
+            options: WalletLinkOptions
+          ) => {
+            const { appName, infuraId, networkId } = options;
+            const walletLink = new WalletLink({
+              appName,
+            });
+            const networkUrl = `https://mainnet.infura.io/v3/${infuraId}`;
+            const provider = walletLink.makeWeb3Provider(networkUrl, networkId);
+            await provider.enable();
+            return provider;
           },
         },
         mewconnect: {

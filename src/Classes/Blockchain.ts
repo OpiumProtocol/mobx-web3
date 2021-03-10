@@ -1,17 +1,31 @@
 // Theirs
-import Web3Modal, { getProviderInfo } from 'web3modal'
-import { observable, computed, action } from 'mobx'
+import Web3Modal, {getProviderInfo} from 'web3modal'
+import {action, computed, observable} from 'mobx'
+import {WalletLink, WalletLinkProvider} from 'walletlink'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Fortmatic from 'fortmatic'
 import Web3 from 'web3'
-import { Subscription } from 'web3-core-subscriptions'
-import { BlockHeader } from 'web3-eth'
-
+import {Subscription} from 'web3-core-subscriptions'
+import {BlockHeader} from 'web3-eth'
+import MewConnect from '@myetherwallet/mewconnect-web-client'
 // Constants
-import { AuthType, ProviderName, ProviderType, ClientName } from '../Constants/Types/blockchain'
+import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'
-import { Logger } from './../utils/logger'
+import {Logger} from './../utils/logger'
+
+interface WalletLinkOptions {
+  /** Application name */
+  appName: string
+  /** @optional Application logo image URL favicon is used if unspecified */
+  appLogoUrl?: string | null
+  /** @optional Use dark theme */
+  darkMode?: boolean
+  /** @required Your Infura account ID */
+  infuraId: string
+  /** @optional Network ID to connect to */
+  networkId: number
+}
 
 const getWalletName = (clientWallet: string): ClientName => {
   switch (clientWallet) {
@@ -30,7 +44,9 @@ class Blockchain {
   protected _web3ws: Web3
   protected _subscription: Subscription<BlockHeader> | null = null
   protected _log: Logger
-  protected _injectedWalletChangesRefreshTime: number = 1000  
+  protected _injectedWalletChangesRefreshTime: number = 1000
+
+  protected _ethereum: WalletLinkProvider | null = null
   @observable protected _networkId = 0
   @observable protected _requiredNetworkId = 0
   public providerName: ProviderName | null = null
@@ -64,6 +80,7 @@ class Blockchain {
   }
 
   constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
+    
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
       network: networkName,
@@ -78,6 +95,40 @@ class Blockchain {
           package: Fortmatic,
           options: {
             key: fortmaticKey
+          }
+        },
+        'custom-walletlink': {
+          display: {
+            logo: 'logo',
+            name: 'WalletLink',
+            description: 'Scan with WalletLink to connect',
+          },
+          options: {
+            appName: 'Opium Finance',
+            appLogoUrl: 'logo',
+            darkMode: false,
+            infuraId,
+            networkId,
+          },
+          package: WalletLink,
+          connector: async (
+            ProviderPackage: any,
+            options: WalletLinkOptions
+          ) => {
+            const { appName, infuraId, networkId } = options
+            const walletLink = new WalletLink({
+              appName,
+            })
+            const networkUrl = `https://mainnet.infura.io/v3/${infuraId}`
+            const provider = walletLink.makeWeb3Provider(networkUrl, networkId)
+            await provider.enable()
+            return provider
+          },
+        },
+        mewconnect: {
+          package: MewConnect,
+          options: {
+            infuraId
           }
         }
       }
@@ -95,6 +146,8 @@ class Blockchain {
     this._web3Modal.on('close', () => {
       // this._log.debug('Web3Modal Modal Closed') // modal has closed
     })
+
+    this._web3ws
   }
 
   // Web3Modal
@@ -113,6 +166,7 @@ class Blockchain {
     // Register onConnect callback
     this._web3Modal.on('connect', async (provider: any) => {
       this._log.debug('web3Modal.on(connect)')
+
       // Clear wallet in case was already connected
       this.clearWallet()
       // Initialize web3modal related variables
@@ -274,6 +328,9 @@ class Blockchain {
       case ProviderName.WalletConnect:
         // TODO: when implemented this._provider.wc.close
         break
+      case ProviderName['MEW wallet']:
+        this._provider.disconnect()
+        break
     }
 
     // TODO: Clear provider, types, web3, etc
@@ -315,6 +372,7 @@ class Blockchain {
   private async _initWeb3Modal(provider: any) {
     this._log.debug('_initWeb3Modal()')
     const providerInfo = getProviderInfo(provider)
+
     this.providerName = Object.keys(ProviderName).indexOf(providerInfo.name) !== -1 ? providerInfo.name as ProviderName : ProviderName.Unknown
     this.providerType = Object.keys(ProviderType).indexOf(providerInfo.type) !== -1 ? providerInfo.type as ProviderType : ProviderType.unknown
 

@@ -1,7 +1,7 @@
 // Theirs
 import Web3Modal, {getProviderInfo} from 'web3modal'
 import {action, computed, observable} from 'mobx'
-import {WalletLink} from 'walletlink'
+import {WalletLink, WalletLinkProvider} from 'walletlink'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Fortmatic from 'fortmatic'
@@ -12,7 +12,20 @@ import MewConnect from '@myetherwallet/mewconnect-web-client'
 // Constants
 import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'
-import {Logger} from './../utils/logger'
+import {Logger} from './../utils/logger';
+
+interface WalletLinkOptions {
+  /** Application name */
+  appName: string;
+  /** @optional Application logo image URL; favicon is used if unspecified */
+  appLogoUrl?: string | null;
+  /** @optional Use dark theme */
+  darkMode?: boolean;
+  /** @required Your Infura account ID */
+  infuraId: string;
+  /** @optional Network ID to connect to */
+  networkId: number;
+}
 
 const getWalletName = (clientWallet: string): ClientName => {
   switch (clientWallet) {
@@ -31,7 +44,9 @@ class Blockchain {
   protected _web3ws: Web3
   protected _subscription: Subscription<BlockHeader> | null = null
   protected _log: Logger
-  protected _injectedWalletChangesRefreshTime: number = 1000  
+  protected _injectedWalletChangesRefreshTime: number = 1000;
+
+  protected  _ethereum: WalletLinkProvider | null = null;
   @observable protected _networkId = 0
   @observable protected _requiredNetworkId = 0
   public providerName: ProviderName | null = null
@@ -72,10 +87,10 @@ class Blockchain {
 
   constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
 
-    const walletLinkProvider = this._walletLink.makeWeb3Provider(
+    this._ethereum = this._walletLink.makeWeb3Provider(
         `https://mainnet.infura.io/v3/${infuraId}`,
         networkId,
-    )
+    );
 
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
@@ -93,17 +108,32 @@ class Blockchain {
             key: fortmaticKey
           }
         },
-        'custom-coinbase': {
+        'custom-walletlink': {
           display: {
-            logo: 'logo',
-            name: 'Coinbase',
-            description: 'Scan with Coinbase to connect',
+            logo: "logo",
+            name: "WalletLink",
+            description: "Scan with WalletLink to connect",
           },
-          package: walletLinkProvider,
-          connector: async (provider, options) => {
-            await provider.enable()
-
-            return provider
+          options: {
+            appName: "name",
+            appLogoUrl: "logo",
+            darkMode: false,
+            infuraId,
+            networkId,
+          },
+          package: WalletLink,
+          connector: async (
+              ProviderPackage: any,
+              options: WalletLinkOptions
+          ) => {
+            const { appName, infuraId, networkId } = options;
+            const walletLink = new WalletLink({
+              appName,
+            });
+            const networkUrl = `https://mainnet.infura.io/v3/${infuraId}`;
+            const provider = walletLink.makeWeb3Provider(networkUrl, networkId);
+            await provider.enable();
+            return provider;
           },
         },
         mewconnect: {
@@ -365,8 +395,8 @@ class Blockchain {
 
   @action
   private async _initWeb3(provider: any) {
-    this._log.debug('_initWeb3()')
-    const web3 = new Web3(provider)
+    this._log.debug('_initWeb3()');
+    const web3 = new Web3(provider);
 
     // Init wallet
     const accounts = await web3.eth.getAccounts()

@@ -9,7 +9,7 @@ export enum AuthType {
   WALLET_CONNECT = 'walletconnect',
   INJECTED = 'injected',
   FORTMATIC = 'fortmatic',
-  COINBASE = 'custom-coinbase',
+  COINBASE = 'custom-walletlink',
   MEW_CONNECT = 'mewconnect'
 }
 

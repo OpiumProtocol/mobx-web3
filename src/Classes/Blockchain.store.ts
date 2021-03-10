@@ -116,6 +116,8 @@ export class BlockchainStore {
 
     // Remove WalletConnect session if exists
     localStorage.removeItem('walletconnect')
+
+    // localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER');
   }
 
   public savePersistentSession () {

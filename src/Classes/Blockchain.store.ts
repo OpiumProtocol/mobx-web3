@@ -61,10 +61,12 @@ export class BlockchainStore {
   /** GENERAL */
   public registerCallbacks = (
     sessionLoadedCallback: () => void,
-    sessionPreparationCallback: () => void
+    sessionPreparationCallback: () => void,
+    sessionEndedCallback: () => void
   ) => {
     this._sessionLoadedCallback = sessionLoadedCallback
     this._sessionPreparationCallback = sessionPreparationCallback
+    this._blockchain.registerLogoutCallback(sessionEndedCallback)
   }
 
   /** BLOCKCHAIN ACTIONS */
@@ -107,7 +109,7 @@ export class BlockchainStore {
     this._clearPersistentSession()
 
     // Set Blockchain store state
-    this._blockchain.clearWallet()
+    this._blockchain.clearWallet(true)
   }
 
   /** PERSISTENT SESSION */

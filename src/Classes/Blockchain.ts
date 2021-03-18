@@ -317,7 +317,6 @@ class Blockchain {
     // Clear wallet related vars
     this.web3Connected = false
     this.address = ''
-
     // Stop periodical checks
     clearInterval(this._periodicalCheckIntervalId)
 
@@ -327,9 +326,6 @@ class Blockchain {
     switch (this.providerName) {
       case ProviderName.WalletConnect:
         // TODO: when implemented this._provider.wc.close
-        break
-      case ProviderName['MEW wallet']:
-        this._provider.disconnect()
         break
     }
 
@@ -438,6 +434,10 @@ class Blockchain {
           this._networkId = await web3.eth.net.getId()
         })
         break
+      case ProviderName['MEW wallet']:
+        this._provider.on('disconnected', () => {
+          this.clearWallet()
+        })
     }
 
     this._networkId = await this._web3.eth.net.getId()

@@ -122,8 +122,6 @@ export class BlockchainStore {
     localStorage.removeItem('-walletlink:https://www.walletlink.org:session:secret')
     localStorage.removeItem('-walletlink:https://www.walletlink.org:session:linked')
     localStorage.removeItem('-walletlink:https://www.walletlink.org:Addresses')
-    
-    // localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER');
   }
 
   public savePersistentSession () {

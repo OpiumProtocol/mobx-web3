@@ -58,6 +58,7 @@ class Blockchain {
   protected _web3Modal: Web3Modal
 
   private _periodicalCheckIntervalId: number = 0
+  private _logoutCallback = () => {}
 
   // Wallet
   @observable public web3Connected: boolean = false
@@ -178,6 +179,11 @@ class Blockchain {
     if (this._web3Modal.cachedProvider) {
       await this._web3Modal.connect()
     }
+  }
+
+  public registerLogoutCallback(callback: () => void) {
+    this._log.debug('registerLogoutCallback()')
+    this._logoutCallback = callback
   }
 
   // General
@@ -312,12 +318,11 @@ class Blockchain {
   }
 
   @action
-  public clearWallet() {
+  public clearWallet(disconnectMew?: boolean) {
     this._log.debug('clearWallet()')
     // Clear wallet related vars
     this.web3Connected = false
     this.address = ''
-
     // Stop periodical checks
     clearInterval(this._periodicalCheckIntervalId)
 
@@ -329,7 +334,9 @@ class Blockchain {
         // TODO: when implemented this._provider.wc.close
         break
       case ProviderName['MEW wallet']:
-        this._provider.disconnect()
+        if (disconnectMew) {
+          this._provider.disconnect()
+        }
         break
     }
 
@@ -436,6 +443,12 @@ class Blockchain {
 
         this._provider.on('chainChanged', async () => {
           this._networkId = await web3.eth.net.getId()
+        })
+        break
+      case ProviderName['MEW wallet']:
+        this._provider.on('disconnected', () => {
+          this.clearWallet(true)
+          this._logoutCallback()
         })
         break
     }

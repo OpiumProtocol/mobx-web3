@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@browser-bunyan/console-formatted-stream": "^1.5.3",
-    "@myetherwallet/mewconnect-web-client": "^2.1.23-beta.1",
+    "@myetherwallet/mewconnect-web-client": "2.1.22",
     "@types/browser-bunyan": "^0.4.5",
     "@types/bunyan": "^1.8.6",
     "@walletconnect/web3-provider": "^1.3.1",

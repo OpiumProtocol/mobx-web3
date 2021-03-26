@@ -11,7 +11,7 @@ export enum AuthType {
   FORTMATIC = 'fortmatic',
   COINBASE = 'custom-walletlink',
   MEW_CONNECT = 'mewconnect',
-  BSC_WALLET = 'bsc-wallet'
+  BSC_WALLET = 'custom-bsc-wallet'
 }
 
 export enum ProviderName {

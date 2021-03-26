@@ -2,6 +2,7 @@
 import Web3Modal, {getProviderInfo} from 'web3modal'
 import {action, computed, observable} from 'mobx'
 import {WalletLink, WalletLinkProvider} from 'walletlink'
+import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Fortmatic from 'fortmatic'
@@ -25,6 +26,10 @@ interface WalletLinkOptions {
   infuraId: string
   /** @optional Network ID to connect to */
   networkId: number
+}
+
+interface IBinanceChainWalletOptions {
+  supportedChainIds: number[]
 }
 
 const getWalletName = (clientWallet: string): ClientName => {
@@ -125,6 +130,25 @@ class Blockchain {
             await provider.enable()
             return provider
           },
+        },
+        'custom-bsc-wallet': {
+          display: {
+            logo: 'logo',
+            name: 'BinanceChainWallet',
+            description: 'Binance Chain Wallet'
+          },
+          options: {
+            supportedChainIds: [56, 97]
+          },
+          package: BscConnector,
+          connector: async(
+            ProviderPackage: BscConnector,
+            options: IBinanceChainWalletOptions
+          ) => {
+            const provider = new BscConnector(options)
+            await provider.activate()
+            return provider
+          }
         },
         mewconnect: {
           package: MewConnect,

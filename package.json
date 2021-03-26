@@ -28,6 +28,7 @@
     "url": "git+https://github.com/OpiumProtocol/mobx-web3.git"
   },
   "dependencies": {
+    "@binance-chain/bsc-connector": "^1.0.0",
     "@browser-bunyan/console-formatted-stream": "^1.5.3",
     "@myetherwallet/mewconnect-web-client": "2.1.22",
     "@types/browser-bunyan": "^0.4.5",

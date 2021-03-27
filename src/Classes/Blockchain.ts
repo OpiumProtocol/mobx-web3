@@ -164,6 +164,7 @@ class Blockchain {
 
     this._log = logger
 
+    this._web3 = new Web3(new Web3.providers.HttpProvider(infuraId))
     this._web3ws = new Web3(
       new Web3.providers.WebsocketProvider(infuraWs)
     )
@@ -173,6 +174,17 @@ class Blockchain {
     })
 
     this._web3ws
+  }
+
+
+  @action changeRequiredNetworkId(requiredNetworkId: number) {
+    this._requiredNetworkId = requiredNetworkId
+  }
+
+  @action cleanUpInterval() {
+    if(this._periodicalCheckIntervalId) {
+      clearInterval(this._periodicalCheckIntervalId)
+    }
   }
 
   // Web3Modal
@@ -427,6 +439,7 @@ class Blockchain {
     // Run periodical checks for address and network change
     this._periodicalCheckIntervalId = setInterval(async () => {
       const accounts = await web3.eth.getAccounts()
+
       // Already logged in and changed account || Just logged in
       if (
         this.web3Connected &&

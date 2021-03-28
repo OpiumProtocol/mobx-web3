@@ -58,4 +58,9 @@ export type TCustomMetamaskChain = {
   };
   rpcUrls: string[];
   blockExplorerUrls?: string[];
-};
+}
+
+export enum ENetwork {
+  ETHEREUM = 'ETHEREUM',
+  BINANCE = 'BINANCE'
+}

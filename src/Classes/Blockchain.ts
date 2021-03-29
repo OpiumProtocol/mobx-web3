@@ -2,6 +2,7 @@
 import Web3Modal, {getProviderInfo} from 'web3modal'
 import {action, computed, observable} from 'mobx'
 import {WalletLink, WalletLinkProvider} from 'walletlink'
+import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Fortmatic from 'fortmatic'
@@ -25,6 +26,10 @@ interface WalletLinkOptions {
   infuraId: string
   /** @optional Network ID to connect to */
   networkId: number
+}
+
+interface IBinanceChainWalletOptions {
+  supportedChainIds: number[]
 }
 
 const getWalletName = (clientWallet: string): ClientName => {
@@ -126,6 +131,25 @@ class Blockchain {
             return provider
           },
         },
+        'custom-bsc-wallet': {
+          display: {
+            logo: 'logo',
+            name: 'BinanceChainWallet',
+            description: 'Binance Chain Wallet'
+          },
+          options: {
+            supportedChainIds: [56, 97]
+          },
+          package: BscConnector,
+          connector: async(
+            ProviderPackage: BscConnector,
+            options: IBinanceChainWalletOptions
+          ) => {
+            const provider = new BscConnector(options)
+            await provider.activate()
+            return provider
+          }
+        },
         mewconnect: {
           package: MewConnect,
           options: {
@@ -140,6 +164,7 @@ class Blockchain {
 
     this._log = logger
 
+    this._web3 = new Web3(new Web3.providers.HttpProvider(infuraId))
     this._web3ws = new Web3(
       new Web3.providers.WebsocketProvider(infuraWs)
     )
@@ -149,6 +174,17 @@ class Blockchain {
     })
 
     this._web3ws
+  }
+
+
+  @action changeRequiredNetworkId(requiredNetworkId: number) {
+    this._requiredNetworkId = requiredNetworkId
+  }
+
+  @action cleanUpInterval() {
+    if(this._periodicalCheckIntervalId) {
+      clearInterval(this._periodicalCheckIntervalId)
+    }
   }
 
   // Web3Modal
@@ -403,6 +439,7 @@ class Blockchain {
     // Run periodical checks for address and network change
     this._periodicalCheckIntervalId = setInterval(async () => {
       const accounts = await web3.eth.getAccounts()
+
       // Already logged in and changed account || Just logged in
       if (
         this.web3Connected &&

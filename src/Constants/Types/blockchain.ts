@@ -10,7 +10,8 @@ export enum AuthType {
   INJECTED = 'injected',
   FORTMATIC = 'fortmatic',
   COINBASE = 'custom-walletlink',
-  MEW_CONNECT = 'mewconnect'
+  MEW_CONNECT = 'mewconnect',
+  BSC_WALLET = 'custom-bsc-wallet'
 }
 
 export enum ProviderName {
@@ -23,6 +24,7 @@ export enum ProviderName {
   Coinbase = 'Coinbase', // Doesn't support
   Dapper = 'Dapper', // Doesn't support
   Web3 = 'Web3', // [e.g. Opera] Error
+  BinanceChain = 'BinanceChain',
   Unknown = 'Unknown'
 }
 
@@ -44,4 +46,21 @@ export type PersistentSession = {
   providerName: ProviderName
   providerType: ProviderType
   address: string
+}
+
+export type TCustomMetamaskChain = {
+  chainId: string;
+  chainName: string;
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+  rpcUrls: string[];
+  blockExplorerUrls?: string[];
+}
+
+export enum ENetwork {
+  ETHEREUM = 'ETHEREUM',
+  BINANCE = 'BINANCE'
 }

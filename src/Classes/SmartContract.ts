@@ -24,6 +24,7 @@ export default class SmartContract {
     }
 
     this._web3 = web3
+    // @ts-ignore
     this._contract = new web3.eth.Contract(jsonInterface, address)
   }
 }

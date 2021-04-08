@@ -40,7 +40,7 @@
     "mobx": "^5.15.4",
     "walletlink": "^2.0.3",
     "web3": "1.2.11",
-    "web3modal": "^1.9.2"
+    "web3modal": "^1.9.3"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",

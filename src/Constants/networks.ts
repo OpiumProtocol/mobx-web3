@@ -42,7 +42,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
 } = {
   mainnet: {
     chainId: '1',
-    chainName: 'Ethereum',
+    chainName: 'mainnet',
     rpcUrls: [],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.ETHEREUM]
@@ -50,7 +50,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   rinkeby: {
     chainId: '4',
-    chainName: 'Ethereum',
+    chainName: 'rinkeby',
     rpcUrls: [],
     nativeCurrency: {    
       ...NETWORK_CURRENCIES[ENetwork.ETHEREUM]
@@ -58,7 +58,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   bscTestnet: {
     chainId: '0x61',
-    chainName: 'Binance Smart Chain Testnet',
+    chainName: 'binanceTestnet',
     rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.BINANCE]
@@ -66,7 +66,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   bscMainnet: {
     chainId: '0x38',
-    chainName: 'Binance Smart Chain Mainnet',
+    chainName: 'binance',
     rpcUrls: ['https://bsc-dataseed.binance.org/'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.BINANCE]
@@ -74,7 +74,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   maticMumbai: {
     chainId: '0x13881',
-    chainName: 'Mumbai',
+    chainName: 'mumbai',
     rpcUrls: ["https://rpc-mumbai.matic.today","wss://ws-mumbai.matic.today"],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
@@ -82,7 +82,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   maticMainnet: {
     chainId: '0x89',
-    chainName: 'Matic Network',
+    chainName: 'matic',
     rpcUrls: ['https://rpc-mainnet.maticvigil.com/', ],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]

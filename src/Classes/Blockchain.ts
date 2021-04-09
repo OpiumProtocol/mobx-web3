@@ -212,7 +212,9 @@ class Blockchain {
 
     // Check if there is cached provider and try to connect to it
     if (this._web3Modal.cachedProvider) {
-      await this._web3Modal.connect()
+      if(this._web3Modal.cachedProvider !== 'mewconnect') {
+        await this._web3Modal.connect()
+      }
     }
   }
 

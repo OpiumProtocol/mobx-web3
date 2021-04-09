@@ -48,7 +48,7 @@ export class BlockchainStore {
   private _sessionLoadedCallback = () => {}
   private _sessionPreparationCallback = () => {}
 
-  constructor (blockchain: any, logger: Logger) {
+  constructor (blockchain: Blockchain, logger: Logger) {
     this._blockchain = blockchain
     this._log = logger
     this.subscribeNewBlockHeaders = this._blockchain.subscribeNewBlockHeaders
@@ -124,6 +124,9 @@ export class BlockchainStore {
     localStorage.removeItem('-walletlink:https://www.walletlink.org:session:secret')
     localStorage.removeItem('-walletlink:https://www.walletlink.org:session:linked')
     localStorage.removeItem('-walletlink:https://www.walletlink.org:Addresses')
+
+    // Remove MEW session if exists
+    localStorage.removeItem('mewconnect')
   }
 
   public savePersistentSession () {

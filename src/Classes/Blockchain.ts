@@ -85,17 +85,16 @@ class Blockchain {
     return NETWORK_NAMES[this._requiredNetworkId]
   }
 
-  constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger) {
-    
+  constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger, rpc: { [chainId: number]: string }) {
+    const isEth = networkId === 1 || networkId === 4
+    const walletConnectOptions = isEth ? {infuraId} : { rpc }
     this._web3Modal = new Web3Modal({
       cacheProvider: true,
       network: networkName,
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider,
-          options: {
-            infuraId
-          }
+          options: walletConnectOptions
         },
         fortmatic: {
           package: Fortmatic,

@@ -62,5 +62,14 @@ export type TCustomMetamaskChain = {
 
 export enum ENetwork {
   ETHEREUM = 'ETHEREUM',
-  BINANCE = 'BINANCE'
+  BINANCE = 'BINANCE',
+  MATIC = 'MATIC'
+}
+
+export type TNativeCurrencies = {
+  [key in ENetwork]: {
+    name: string,
+    symbol: string,
+    decimals: number   
+  }
 }

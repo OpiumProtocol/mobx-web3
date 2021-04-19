@@ -369,6 +369,27 @@
     "@ethersproject/properties" "^5.0.3"
     "@ethersproject/strings" "^5.0.4"
 
+"@gnosis.pm/safe-apps-provider@0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-provider/-/safe-apps-provider-0.2.4.tgz#5d78a0954791aa01344afdb701886fe5d3077905"
+  integrity sha512-C9JrY/UAU0I6GO3YoI2w/uTxoNiU3AlH2ou/1SrXW6W1f8oBnG0sb3LbYlko16TsGCc1CGTKzGb6aD2e6a45Vg==
+  dependencies:
+    "@gnosis.pm/safe-apps-sdk" "2.2.0"
+
+"@gnosis.pm/safe-apps-sdk@2.2.0", "@gnosis.pm/safe-apps-sdk@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-sdk/-/safe-apps-sdk-2.2.0.tgz#aaaeb74d122816407fb2ac4333322355891ac774"
+  integrity sha512-4CCrTfCAGrT1NiYpOs22B/YSycEymC6lxO5h37H8LFC9WNjUijhrxsQZiu7rPzDE9VDXe6s2YOiaGgKCthoorA==
+  dependencies:
+    semver "^7.3.2"
+
+"@gnosis.pm/safe-apps-web3modal@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@gnosis.pm/safe-apps-web3modal/-/safe-apps-web3modal-0.2.2.tgz#06f805e9b9bbca4484bb37b714bc540c7fc517f0"
+  integrity sha512-1C3XjIFUldIw1ArOuV17VRTgoxoZDJtFtLHMyiooa8HThm15Cnn3agXrIYQhSGQwQw1sD/bQwKuP/OqtZaF5yw==
+  dependencies:
+    "@gnosis.pm/safe-apps-provider" "0.2.4"
+
 "@myetherwallet/mewconnect-web-client@2.1.22":
   version "2.1.22"
   resolved "https://registry.yarnpkg.com/@myetherwallet/mewconnect-web-client/-/mewconnect-web-client-2.1.22.tgz#8d4e97f0b8157c33f282d9cf650a9630da47a91e"

@@ -1,5 +1,6 @@
 // Theirs
 import Web3Modal, {getProviderInfo} from 'web3modal'
+import { SafeAppWeb3Modal } from '@gnosis.pm/safe-apps-web3modal'
 import {action, computed, observable} from 'mobx'
 import {WalletLink, WalletLinkProvider} from 'walletlink'
 import { BscConnector } from '@binance-chain/bsc-connector'
@@ -85,10 +86,14 @@ class Blockchain {
     return NETWORK_NAMES[this._requiredNetworkId]
   }
 
-  constructor(networkId: number, networkName: string, infuraId: string, fortmaticKey: string, infuraWs: string, logger: Logger, rpc: { [chainId: number]: string }) {
-    const isEth = networkId === 1 || networkId === 4
-    const walletConnectOptions = isEth ? {infuraId} : { rpc }
-    this._web3Modal = new Web3Modal({
+  constructor(networkId: number, networkName: string, infura: string, fortmaticKey: string, infuraWs: string, logger: Logger, rpc: { [chainId: number]: string }) {
+    // WalletConnect
+    const walletConnectOptions = { rpc }
+    
+    const infuraSplit = infura.split('/')
+    const infuraId = infuraSplit[infuraSplit.length - 1]
+
+    this._web3Modal = new SafeAppWeb3Modal({
       cacheProvider: true,
       network: networkName,
       providerOptions: {
@@ -112,7 +117,7 @@ class Blockchain {
             appName: 'Opium Finance',
             appLogoUrl: 'logo',
             darkMode: false,
-            infuraId,
+            infura,
             networkId,
           },
           package: WalletLink,
@@ -124,8 +129,7 @@ class Blockchain {
             const walletLink = new WalletLink({
               appName,
             })
-            const networkUrl = `https://mainnet.infura.io/v3/${infuraId}`
-            const provider = walletLink.makeWeb3Provider(networkUrl, networkId)
+            const provider = walletLink.makeWeb3Provider(infura, networkId)
             await provider.enable()
             return provider
           },
@@ -163,7 +167,7 @@ class Blockchain {
 
     this._log = logger
 
-    this._web3 = new Web3(new Web3.providers.HttpProvider(infuraId))
+    this._web3 = new Web3(new Web3.providers.HttpProvider(infura))
     this._web3ws = new Web3(
       new Web3.providers.WebsocketProvider(infuraWs)
     )

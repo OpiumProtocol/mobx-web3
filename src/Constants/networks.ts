@@ -8,8 +8,8 @@ export const NETWORK_NAMES: { [networkId: number]: string } = {
   42: 'Kovan',
   56: 'Binance Smart Chain',
   97: 'Binance Smart Chain Testnet',
-  137: 'Matic Network',
-  80001: 'Matic Mumbai'
+  137: 'Polygon Network',
+  80001: 'Polygon Mumbai Test Network'
 }
 
 export const NETWORK_HEX_IDS = {

@@ -46,7 +46,8 @@ export const CUSTOM_METAMASK_NETWORKS: {
     rpcUrls: [],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.ETHEREUM]
-    }
+    },
+    blockExplorerUrls: ['https://etherscan.io/']
   },
   rinkeby: {
     chainId: '4',
@@ -54,7 +55,8 @@ export const CUSTOM_METAMASK_NETWORKS: {
     rpcUrls: [],
     nativeCurrency: {    
       ...NETWORK_CURRENCIES[ENetwork.ETHEREUM]
-    }
+    },
+    blockExplorerUrls: ['https://rinkeby.etherscan.io/']
   },
   bscTestnet: {
     chainId: '0x61',
@@ -62,7 +64,8 @@ export const CUSTOM_METAMASK_NETWORKS: {
     rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.BINANCE]
-    }
+    },
+    blockExplorerUrls: ['https://testnet.bscscan.com/']
   },
   bscMainnet: {
     chainId: '0x38',
@@ -70,7 +73,8 @@ export const CUSTOM_METAMASK_NETWORKS: {
     rpcUrls: ['https://bsc-dataseed.binance.org/'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.BINANCE]
-    }
+    },
+    blockExplorerUrls: ['https://bscscan.com/']
   },
   maticMumbai: {
     chainId: '0x13881',
@@ -78,7 +82,8 @@ export const CUSTOM_METAMASK_NETWORKS: {
     rpcUrls: ["https://rpc-mumbai.matic.today","wss://ws-mumbai.matic.today"],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
-    }
+    },
+    blockExplorerUrls: ['https://explorer-mumbai.maticvigil.com/']
   },
   maticMainnet: {
     chainId: '0x89',
@@ -86,7 +91,8 @@ export const CUSTOM_METAMASK_NETWORKS: {
     rpcUrls: ['https://rpc-mainnet.maticvigil.com/', ],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
-    }
+    },
+    blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/']
   }
 }
 

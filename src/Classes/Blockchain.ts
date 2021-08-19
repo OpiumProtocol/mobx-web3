@@ -65,6 +65,7 @@ class Blockchain {
 
   private _periodicalCheckIntervalId: number = 0
   private _logoutCallback = () => {}
+  private _walletChangeCallback = () => {}
 
   // Wallet
   @observable public web3Connected: boolean = false
@@ -196,9 +197,9 @@ class Blockchain {
     return this._web3Modal.toggleModal()
   }
 
-  public connectTo(authType: AuthType) {
+  public async connectTo(authType: AuthType) {
     this._log.debug('connectTo()')
-    return this._web3Modal.connectTo(authType)
+    return await this._web3Modal.connectTo(authType)
   }
 
   async registerWeb3ModalOnConnectCallback(callback: () => void) {
@@ -225,6 +226,11 @@ class Blockchain {
   public registerLogoutCallback(callback: () => void) {
     this._log.debug('registerLogoutCallback()')
     this._logoutCallback = callback
+  }
+
+  public registerWalletChangeCallback(callback: () => void) {
+    this._log.debug('registerWalletChangeCallback')
+    this._walletChangeCallback = callback
   }
 
   // General
@@ -452,8 +458,9 @@ class Blockchain {
         this.address.length &&
         accounts[0].toLowerCase() !== this.address
       ) {
-        this._log.debug('Address changed')
-        this.address = accounts[0].toLowerCase()
+        this._walletChangeCallback()
+        // this._log.debug('Address changed')
+        // this.address = accounts[0].toLowerCase()
       }
 
       const networkId = await web3.eth.net.getId()

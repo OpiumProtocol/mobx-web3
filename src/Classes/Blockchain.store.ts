@@ -62,11 +62,13 @@ export class BlockchainStore {
   public registerCallbacks = (
     sessionLoadedCallback: () => void,
     sessionPreparationCallback: () => void,
-    sessionEndedCallback: () => void
+    sessionEndedCallback: () => void,
+    walletChangeCallback: () => void
   ) => {
     this._sessionLoadedCallback = sessionLoadedCallback
     this._sessionPreparationCallback = sessionPreparationCallback
     this._blockchain.registerLogoutCallback(sessionEndedCallback)
+    this._blockchain.registerWalletChangeCallback(walletChangeCallback)
   }
 
   /** BLOCKCHAIN ACTIONS */

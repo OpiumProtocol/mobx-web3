@@ -197,9 +197,9 @@ class Blockchain {
     return this._web3Modal.toggleModal()
   }
 
-  public async connectTo(authType: AuthType) {
+  public connectTo(authType: AuthType) {
     this._log.debug('connectTo()')
-    return await this._web3Modal.connectTo(authType)
+    return this._web3Modal.connectTo(authType)
   }
 
   async registerWeb3ModalOnConnectCallback(callback: () => void) {
@@ -272,6 +272,31 @@ class Blockchain {
           this._log.error(error, 'watchTx() interval: Internal error')
         }
       }, 1000) as unknown as number // Once per second
+    })
+  }
+
+  public personalSign = async (message: string): Promise<string> => {
+    if (!this._web3) {
+      throw new Error('Web3 is not initialized')
+    }
+    const accounts = await this._web3.eth.getAccounts()
+    const signer = accounts[0]
+    this._log.debug('_signTypedDataReversed()')
+    return new Promise(async (resolve, reject) => {
+      await this._provider.send(
+        {
+          method: 'personal_sign',
+          params: [message, signer],
+          from: signer
+        },
+        (error: any, result: any) => {
+          if (error || result.error) {
+            return reject(error || result.error)
+          }
+          const signature = result.result.substring(2)
+          resolve(signature)
+        }
+      )
     })
   }
 
@@ -459,8 +484,6 @@ class Blockchain {
         accounts[0].toLowerCase() !== this.address
       ) {
         this._walletChangeCallback()
-        // this._log.debug('Address changed')
-        // this.address = accounts[0].toLowerCase()
       }
 
       const networkId = await web3.eth.net.getId()

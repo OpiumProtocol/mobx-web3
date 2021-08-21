@@ -91,6 +91,10 @@ export class BlockchainStore {
     return this._blockchain.signTypedData(message)
   }
 
+  public personalSign = async (message: string) => {
+    return await this._blockchain.personalSign(message)
+  }
+
   /** WALLET */
   public login = async (authType: AuthType) => {
     this._log.debug('login()')

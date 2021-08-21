@@ -62,11 +62,13 @@ export class BlockchainStore {
   public registerCallbacks = (
     sessionLoadedCallback: () => void,
     sessionPreparationCallback: () => void,
-    sessionEndedCallback: () => void
+    sessionEndedCallback: () => void,
+    walletChangeCallback: () => void
   ) => {
     this._sessionLoadedCallback = sessionLoadedCallback
     this._sessionPreparationCallback = sessionPreparationCallback
     this._blockchain.registerLogoutCallback(sessionEndedCallback)
+    this._blockchain.registerWalletChangeCallback(walletChangeCallback)
   }
 
   /** BLOCKCHAIN ACTIONS */
@@ -87,6 +89,10 @@ export class BlockchainStore {
 
   public signTypedMessage (message: EIP712Message) {
     return this._blockchain.signTypedData(message)
+  }
+
+  public personalSign = async (message: string) => {
+    return await this._blockchain.personalSign(message)
   }
 
   /** WALLET */

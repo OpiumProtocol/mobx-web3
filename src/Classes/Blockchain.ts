@@ -65,6 +65,7 @@ class Blockchain {
 
   private _periodicalCheckIntervalId: number = 0
   private _logoutCallback = () => {}
+  private _walletChangeCallback = () => {}
 
   // Wallet
   @observable public web3Connected: boolean = false
@@ -227,6 +228,11 @@ class Blockchain {
     this._logoutCallback = callback
   }
 
+  public registerWalletChangeCallback(callback: () => void) {
+    this._log.debug('registerWalletChangeCallback')
+    this._walletChangeCallback = callback
+  }
+
   // General
   getWeb3() {
     return this._web3
@@ -266,6 +272,31 @@ class Blockchain {
           this._log.error(error, 'watchTx() interval: Internal error')
         }
       }, 1000) as unknown as number // Once per second
+    })
+  }
+
+  public personalSign = async (message: string): Promise<string> => {
+    if (!this._web3) {
+      throw new Error('Web3 is not initialized')
+    }
+    const accounts = await this._web3.eth.getAccounts()
+    const signer = accounts[0]
+    this._log.debug('_signTypedDataReversed()')
+    return new Promise(async (resolve, reject) => {
+      await this._provider.send(
+        {
+          method: 'personal_sign',
+          params: [message, signer],
+          from: signer
+        },
+        (error: any, result: any) => {
+          if (error || result.error) {
+            return reject(error || result.error)
+          }
+          const signature = result.result.substring(2)
+          resolve(signature)
+        }
+      )
     })
   }
 
@@ -452,8 +483,7 @@ class Blockchain {
         this.address.length &&
         accounts[0].toLowerCase() !== this.address
       ) {
-        this._log.debug('Address changed')
-        this.address = accounts[0].toLowerCase()
+        this._walletChangeCallback()
       }
 
       const networkId = await web3.eth.net.getId()

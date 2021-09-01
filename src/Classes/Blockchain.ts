@@ -475,7 +475,6 @@ class Blockchain {
     // Run periodical checks for address and network change
     this._periodicalCheckIntervalId = setInterval(async () => {
       const accounts = await web3.eth.getAccounts()
-
       // Already logged in and changed account || Just logged in
       if (
         this.web3Connected &&
@@ -483,6 +482,7 @@ class Blockchain {
         this.address.length &&
         accounts[0].toLowerCase() !== this.address
       ) {
+        this.address = accounts[0].toLowerCase()
         this._walletChangeCallback()
       }
 

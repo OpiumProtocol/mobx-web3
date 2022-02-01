@@ -1,4 +1,4 @@
-import { ENetwork, TCustomMetamaskChain, TNativeCurrencies } from "./Types/blockchain"
+import { ENetwork, TCustomMetamaskChain, TNativeCurrencies } from './Types/blockchain'
 
 export const NETWORK_NAMES: { [networkId: number]: string } = {
   1: 'Mainnet',
@@ -9,7 +9,9 @@ export const NETWORK_NAMES: { [networkId: number]: string } = {
   56: 'Binance Smart Chain',
   97: 'Binance Smart Chain Testnet',
   137: 'Polygon Network',
-  80001: 'Polygon Mumbai Test Network'
+  80001: 'Polygon Mumbai Test Network',
+  42161: 'Arbitrum Mainnet',
+  421611: 'Arbitrum Rinkeby Testnet'
 }
 
 export const NETWORK_HEX_IDS = {
@@ -32,7 +34,12 @@ export const NETWORK_CURRENCIES: TNativeCurrencies = {
     name: 'MATIC',
     symbol: 'MATIC',
     decimals: 18
-  }
+  },
+  [ENetwork.ARBITRUM]: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18
+  },
 }
 
 
@@ -79,7 +86,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   maticMumbai: {
     chainId: '0x13881',
     chainName: 'mumbai',
-    rpcUrls: ["https://rpc-mumbai.matic.today","wss://ws-mumbai.matic.today"],
+    rpcUrls: ['https://rpc-mumbai.matic.today', 'wss://ws-mumbai.matic.today'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
     },
@@ -93,7 +100,25 @@ export const CUSTOM_METAMASK_NETWORKS: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
     },
     blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/']
-  }
+  },
+  arbitrumMainnet: {
+    chainId: '0xA4B1',
+    chainName: 'arbitrum mainnet',
+    rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+    nativeCurrency: {
+      ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
+    },
+    blockExplorerUrls: ['https://arbiscan.io']
+  },
+  arbitrumTestnet: {
+    chainId: '0x66EEB',
+    chainName: 'arbitrum testnet',
+    rpcUrls: ['https://rinkeby.arbitrum.io/rpc'],
+    nativeCurrency: {
+      ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
+    },
+    blockExplorerUrls: ['https://rinkeby-explorer.arbitrum.io/#/']
+  },
 }
 
 export default NETWORK_NAMES

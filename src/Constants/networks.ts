@@ -108,7 +108,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
     },
-    blockExplorerUrls: ['https://arbiscan.io']
+    blockExplorerUrls: ['https://arbiscan.io/']
   },
   arbitrumTestnet: {
     chainId: '0x66EEB',
@@ -117,7 +117,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
     },
-    blockExplorerUrls: ['https://rinkeby-explorer.arbitrum.io/#/']
+    blockExplorerUrls: ['https://testnet.arbiscan.io/']
   },
 }
 

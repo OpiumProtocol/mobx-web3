@@ -239,7 +239,7 @@ class Blockchain {
   }
 
   @computed
-  getProvider() {
+  get provider() {
     return this._provider
   }
 

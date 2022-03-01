@@ -169,6 +169,7 @@ class Blockchain {
     this._log = logger
 
     this._web3 = new Web3(new Web3.providers.HttpProvider(infura))
+    this._provider = this._web3.givenProvider
     this._web3ws = new Web3(
       new Web3.providers.WebsocketProvider(infuraWs)
     )
@@ -238,8 +239,7 @@ class Blockchain {
     return this._web3
   }
 
-  @computed
-  get provider() {
+  getProvider() {
     return this._provider
   }
 

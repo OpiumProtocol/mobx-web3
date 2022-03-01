@@ -1,0 +1,33 @@
+name: "CI/CD Pipeline"
+on: pull_request
+
+jobs:
+  lintBuildAndPublish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - name: Setup Node.js
+      uses: actions/setup-node@v2-beta
+      with:
+        node-version: '10'
+        check-latest: true
+    - name: Cache yarn
+      uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+    - name: Install dependencies
+      run: yarn
+    - name: Check linter
+      run: yarn lint
+    - name: Check TypeScript
+      run: yarn build
+    - name: Bump version
+      run: yarn version --new-version $(node -p -e "require('./package.json').version")-pr-${{ github.event.number }}-${{ github.event.pull_request.head.sha }} --no-git-tag-version
+    - uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        tag: next
+        check-version: false

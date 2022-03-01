@@ -238,6 +238,10 @@ class Blockchain {
     return this._web3
   }
 
+  getProvider() {
+    return this._provider
+  }
+
   // Wallet
   public watchTx = (txHash: string): Promise<void> => {
     this._log.debug('watchTx()', txHash)

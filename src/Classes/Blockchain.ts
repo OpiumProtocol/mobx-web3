@@ -186,7 +186,7 @@ class Blockchain {
   }
 
   @action cleanUpInterval() {
-    if(this._periodicalCheckIntervalId) {
+    if (this._periodicalCheckIntervalId) {
       clearInterval(this._periodicalCheckIntervalId)
     }
   }
@@ -217,7 +217,7 @@ class Blockchain {
 
     // Check if there is cached provider and try to connect to it
     if (this._web3Modal.cachedProvider) {
-      if(this._web3Modal.cachedProvider !== 'mewconnect') {
+      if (this._web3Modal.cachedProvider !== 'mewconnect') {
         await this._web3Modal.connect()
       }
     }

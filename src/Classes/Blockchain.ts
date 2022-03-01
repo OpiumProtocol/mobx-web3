@@ -238,6 +238,7 @@ class Blockchain {
     return this._web3
   }
 
+  @computed
   getProvider() {
     return this._provider
   }

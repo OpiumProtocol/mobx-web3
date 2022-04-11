@@ -169,6 +169,7 @@ class Blockchain {
     this._log = logger
 
     this._web3 = new Web3(new Web3.providers.HttpProvider(infura))
+    this._provider = this._web3.givenProvider
     this._web3ws = new Web3(
       new Web3.providers.WebsocketProvider(infuraWs)
     )
@@ -186,7 +187,7 @@ class Blockchain {
   }
 
   @action cleanUpInterval() {
-    if(this._periodicalCheckIntervalId) {
+    if (this._periodicalCheckIntervalId) {
       clearInterval(this._periodicalCheckIntervalId)
     }
   }
@@ -217,7 +218,7 @@ class Blockchain {
 
     // Check if there is cached provider and try to connect to it
     if (this._web3Modal.cachedProvider) {
-      if(this._web3Modal.cachedProvider !== 'mewconnect') {
+      if (this._web3Modal.cachedProvider !== 'mewconnect') {
         await this._web3Modal.connect()
       }
     }
@@ -236,6 +237,10 @@ class Blockchain {
   // General
   getWeb3() {
     return this._web3
+  }
+
+  getProvider() {
+    return this._provider
   }
 
   // Wallet

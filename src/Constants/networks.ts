@@ -1,4 +1,4 @@
-import { ENetwork, TCustomMetamaskChain, TNativeCurrencies } from "./Types/blockchain"
+import { ENetwork, TCustomMetamaskChain, TNativeCurrencies } from './Types/blockchain'
 
 export const NETWORK_NAMES: { [networkId: number]: string } = {
   1: 'Mainnet',
@@ -9,7 +9,9 @@ export const NETWORK_NAMES: { [networkId: number]: string } = {
   56: 'Binance Smart Chain',
   97: 'Binance Smart Chain Testnet',
   137: 'Polygon Network',
-  80001: 'Polygon Mumbai Test Network'
+  80001: 'Polygon Mumbai Test Network',
+  42161: 'Arbitrum Mainnet',
+  421611: 'Arbitrum Rinkeby Testnet'
 }
 
 export const NETWORK_HEX_IDS = {
@@ -32,7 +34,12 @@ export const NETWORK_CURRENCIES: TNativeCurrencies = {
     name: 'MATIC',
     symbol: 'MATIC',
     decimals: 18
-  }
+  },
+  [ENetwork.ARBITRUM]: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18
+  },
 }
 
 
@@ -42,6 +49,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
 } = {
   mainnet: {
     chainId: '1',
+    chainIdHex: '0x1',
     chainName: 'mainnet',
     rpcUrls: [],
     nativeCurrency: {
@@ -51,6 +59,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   rinkeby: {
     chainId: '4',
+    chainIdHex: '0x4',
     chainName: 'rinkeby',
     rpcUrls: [],
     nativeCurrency: {    
@@ -60,6 +69,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   bscTestnet: {
     chainId: '0x61',
+    chainIdHex: '0x61',
     chainName: 'binanceTestnet',
     rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
     nativeCurrency: {
@@ -69,6 +79,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   bscMainnet: {
     chainId: '0x38',
+    chainIdHex: '0x38',
     chainName: 'binance',
     rpcUrls: ['https://bsc-dataseed.binance.org/'],
     nativeCurrency: {
@@ -78,8 +89,9 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   maticMumbai: {
     chainId: '0x13881',
+    chainIdHex: '0x13881',
     chainName: 'mumbai',
-    rpcUrls: ["https://rpc-mumbai.matic.today","wss://ws-mumbai.matic.today"],
+    rpcUrls: ['https://rpc-mumbai.matic.today', 'wss://ws-mumbai.matic.today'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
     },
@@ -87,13 +99,34 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   maticMainnet: {
     chainId: '0x89',
+    chainIdHex: '0x89',
     chainName: 'matic',
     rpcUrls: ['https://rpc-mainnet.maticvigil.com/', ],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.MATIC]
     },
     blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/']
-  }
+  },
+  arbitrumMainnet: {
+    chainId: '0xA4B1',
+    chainIdHex: '0xA4B1',
+    chainName: 'arbitrum mainnet',
+    rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+    nativeCurrency: {
+      ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
+    },
+    blockExplorerUrls: ['https://arbiscan.io/']
+  },
+  arbitrumTestnet: {
+    chainId: '0x66EEB',
+    chainIdHex: '0x66EEB',
+    chainName: 'arbitrum testnet',
+    rpcUrls: ['https://rinkeby.arbitrum.io/rpc'],
+    nativeCurrency: {
+      ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
+    },
+    blockExplorerUrls: ['https://testnet.arbiscan.io/']
+  },
 }
 
 export default NETWORK_NAMES

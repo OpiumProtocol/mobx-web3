@@ -50,6 +50,7 @@ export type PersistentSession = {
 
 export type TCustomMetamaskChain = {
   chainId: string;
+  chainIdHex: string
   chainName: string;
   nativeCurrency: {
     name: string;
@@ -63,7 +64,8 @@ export type TCustomMetamaskChain = {
 export enum ENetwork {
   ETHEREUM = 'ETHEREUM',
   BINANCE = 'BINANCE',
-  MATIC = 'MATIC'
+  MATIC = 'MATIC',
+  ARBITRUM = 'ARBITRUM'
 }
 
 export type TNativeCurrencies = {

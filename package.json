@@ -1,6 +1,6 @@
 {
   "name": "@opiumteam/mobx-web3",
-  "version": "1.0.17",
+  "version": "1.0.25",
   "description": "Opium mobx-web3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -35,14 +35,14 @@
     "@myetherwallet/mewconnect-web-client": "2.1.22",
     "@types/browser-bunyan": "^0.4.5",
     "@types/bunyan": "^1.8.6",
-    "@walletconnect/web3-provider": "^1.3.1",
+    "@walletconnect/web3-provider": "1.3.1",
     "browser-bunyan": "^1.5.3",
     "csstype": "^3.0.5",
     "fortmatic": "^2.0.6",
     "mobx": "^5.15.4",
     "walletlink": "^2.0.3",
     "web3": "1.2.11",
-    "web3modal": "^1.9.3"
+    "web3modal": "1.9.3"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",

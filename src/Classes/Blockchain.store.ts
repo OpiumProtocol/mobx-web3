@@ -104,7 +104,7 @@ export class BlockchainStore {
       await this._blockchain.connectTo(authType)
     } catch (e) {
       this._log.error(e, 'login(): Error while connecting')
-      if (e.message === 'User closed modal') {
+      if (e.message.includes('User closed modal')) {
         this.logout()
       }
     }

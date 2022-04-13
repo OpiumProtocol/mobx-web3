@@ -100,8 +100,9 @@ export class BlockchainStore {
     this._log.debug('login()')
     try {
       await this._blockchain.connectTo(authType)
-    } catch (e) {
+    } catch (e: any) {
       this._log.error(e, 'login(): Error while connecting')
+      console.log(e.message)
     }
   }
 
@@ -124,7 +125,7 @@ export class BlockchainStore {
 
     // Remove WalletConnect session if exists
     localStorage.removeItem('walletconnect')
-
+    
     // Remove WalletLink session if exists
     localStorage.removeItem('-walletlink:https://www.walletlink.org:session:id')
     localStorage.removeItem('-walletlink:https://www.walletlink.org:session:secret')

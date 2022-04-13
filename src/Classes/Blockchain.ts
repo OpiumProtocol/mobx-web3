@@ -518,9 +518,8 @@ class Blockchain {
         this.clientName = walletName
         this._log.info(this.clientName)
         this._provider.on('disconnect', () => {
-          console.log('disconnect triggered')
           localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER')
-          console.log(localStorage.getItem('WEB3_CONNECT_CACHED_PROVIDER'))
+          localStorage.removeItem('walletconnect')
         })
         this._provider.on('chainChanged', async () => {
           this._networkId = await web3.eth.net.getId()

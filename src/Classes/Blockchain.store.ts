@@ -47,6 +47,7 @@ export class BlockchainStore {
 
   private _sessionLoadedCallback = () => {}
   private _sessionPreparationCallback = () => {}
+  private _sessionEndedCallback = () => {}
 
   constructor (blockchain: Blockchain, logger: Logger) {
     this._blockchain = blockchain
@@ -67,6 +68,7 @@ export class BlockchainStore {
   ) => {
     this._sessionLoadedCallback = sessionLoadedCallback
     this._sessionPreparationCallback = sessionPreparationCallback
+    this._sessionEndedCallback = sessionEndedCallback
     this._blockchain.registerLogoutCallback(sessionEndedCallback)
     this._blockchain.registerWalletChangeCallback(walletChangeCallback)
   }
@@ -102,6 +104,9 @@ export class BlockchainStore {
       await this._blockchain.connectTo(authType)
     } catch (e) {
       this._log.error(e, 'login(): Error while connecting')
+      if (e.message.includes('User closed modal')) {
+        this.logout()
+      }
     }
   }
 
@@ -116,6 +121,7 @@ export class BlockchainStore {
 
     // Set Blockchain store state
     this._blockchain.clearWallet(true)
+    this._sessionEndedCallback()
   }
 
   /** PERSISTENT SESSION */

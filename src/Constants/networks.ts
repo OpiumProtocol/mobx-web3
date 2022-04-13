@@ -70,7 +70,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   bscTestnet: {
     chainId: '0x61',
     chainIdHex: '0x61',
-    chainName: 'binanceTestnet',
+    chainName: 'binance-testnet',
     rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.BINANCE]
@@ -110,7 +110,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   arbitrumMainnet: {
     chainId: '0xA4B1',
     chainIdHex: '0xA4B1',
-    chainName: 'arbitrum mainnet',
+    chainName: 'arbitrum',
     rpcUrls: ['https://arb1.arbitrum.io/rpc'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]
@@ -120,7 +120,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   arbitrumTestnet: {
     chainId: '0x66EEB',
     chainIdHex: '0x66EEB',
-    chainName: 'arbitrum testnet',
+    chainName: 'arbitrum-rinkeby',
     rpcUrls: ['https://rinkeby.arbitrum.io/rpc'],
     nativeCurrency: {
       ...NETWORK_CURRENCIES[ENetwork.ARBITRUM]

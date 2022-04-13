@@ -517,7 +517,11 @@ class Blockchain {
         const walletName = getWalletName(this._provider.wc.session.clientMeta.name)
         this.clientName = walletName
         this._log.info(this.clientName)
-
+        this._provider.on('disconnect', () => {
+          localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER')
+          localStorage.removeItem('walletconnect')
+          this._logoutCallback()
+        })
         this._provider.on('chainChanged', async () => {
           this._networkId = await web3.eth.net.getId()
         })

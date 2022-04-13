@@ -524,8 +524,6 @@ class Blockchain {
         })
         this._provider.on('chainChanged', async () => {
           this._networkId = await web3.eth.net.getId()
-          // console.log('chainChanged triggered')
-          // this.connectTo(AuthType.WALLET_CONNECT)
         })
         break
       case ProviderName['MEW wallet']:

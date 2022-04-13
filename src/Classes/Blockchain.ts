@@ -520,6 +520,7 @@ class Blockchain {
         this._provider.on('disconnect', () => {
           localStorage.removeItem('WEB3_CONNECT_CACHED_PROVIDER')
           localStorage.removeItem('walletconnect')
+          this._logoutCallback()
         })
         this._provider.on('chainChanged', async () => {
           this._networkId = await web3.eth.net.getId()

@@ -49,7 +49,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
 } = {
   mainnet: {
     chainId: '1',
-    chainIdHex: '0x1',
     chainName: 'mainnet',
     rpcUrls: [],
     nativeCurrency: {
@@ -59,7 +58,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   rinkeby: {
     chainId: '4',
-    chainIdHex: '0x4',
     chainName: 'rinkeby',
     rpcUrls: [],
     nativeCurrency: {    
@@ -69,7 +67,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   bscTestnet: {
     chainId: '0x61',
-    chainIdHex: '0x61',
     chainName: 'binance-testnet',
     rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
     nativeCurrency: {
@@ -79,7 +76,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   bscMainnet: {
     chainId: '0x38',
-    chainIdHex: '0x38',
     chainName: 'binance',
     rpcUrls: ['https://bsc-dataseed.binance.org/'],
     nativeCurrency: {
@@ -89,7 +85,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   maticMumbai: {
     chainId: '0x13881',
-    chainIdHex: '0x13881',
     chainName: 'mumbai',
     rpcUrls: ['https://rpc-mumbai.matic.today', 'wss://ws-mumbai.matic.today'],
     nativeCurrency: {
@@ -99,7 +94,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   maticMainnet: {
     chainId: '0x89',
-    chainIdHex: '0x89',
     chainName: 'matic',
     rpcUrls: ['https://rpc-mainnet.maticvigil.com/', ],
     nativeCurrency: {
@@ -109,7 +103,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   arbitrumMainnet: {
     chainId: '0xA4B1',
-    chainIdHex: '0xA4B1',
     chainName: 'arbitrum',
     rpcUrls: ['https://arb1.arbitrum.io/rpc'],
     nativeCurrency: {
@@ -119,7 +112,6 @@ export const CUSTOM_METAMASK_NETWORKS: {
   },
   arbitrumTestnet: {
     chainId: '0x66EEB',
-    chainIdHex: '0x66EEB',
     chainName: 'arbitrum-rinkeby',
     rpcUrls: ['https://rinkeby.arbitrum.io/rpc'],
     nativeCurrency: {

@@ -50,7 +50,6 @@ export type PersistentSession = {
 
 export type TCustomMetamaskChain = {
   chainId: string;
-  chainIdHex: string
   chainName: string;
   nativeCurrency: {
     name: string;

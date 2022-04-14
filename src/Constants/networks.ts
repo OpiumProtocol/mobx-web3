@@ -48,7 +48,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
   [key: string]: TCustomMetamaskChain,
 } = {
   mainnet: {
-    chainId: '1',
+    chainId: '0x1',
     chainName: 'mainnet',
     rpcUrls: [],
     nativeCurrency: {
@@ -57,7 +57,7 @@ export const CUSTOM_METAMASK_NETWORKS: {
     blockExplorerUrls: ['https://etherscan.io/']
   },
   rinkeby: {
-    chainId: '4',
+    chainId: '0x4',
     chainName: 'rinkeby',
     rpcUrls: [],
     nativeCurrency: {    

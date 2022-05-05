@@ -109,9 +109,9 @@ class Blockchain {
             key: fortmaticKey
           }
         },
-        coinbasewallet: {
+        walletlink: {
           options: {
-            appName: 'Web 3 Modal',
+            appName: 'CoinbaseWallet',
             infuraId
           },
           package: CoinbaseWalletSDK
@@ -222,6 +222,8 @@ class Blockchain {
       this.clearWallet()
       // Initialize web3modal related variables
       await this._initWeb3Modal(provider)
+      console.log('provider', provider)
+      
       callback()
     })
 

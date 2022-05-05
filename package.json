@@ -30,6 +30,7 @@
   "dependencies": {
     "@binance-chain/bsc-connector": "^1.0.0",
     "@browser-bunyan/console-formatted-stream": "^1.5.3",
+    "@coinbase/wallet-sdk": "^3.0.11",
     "@gnosis.pm/safe-apps-sdk": "^2.2.0",
     "@gnosis.pm/safe-apps-web3modal": "^0.2.2",
     "@myetherwallet/mewconnect-web-client": "2.1.22",

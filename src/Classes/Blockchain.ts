@@ -6,6 +6,7 @@ import {WalletLink, WalletLinkProvider} from 'walletlink'
 import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
 import Fortmatic from 'fortmatic'
 import Web3 from 'web3'
 import {Subscription} from 'web3-core-subscriptions'
@@ -98,6 +99,13 @@ class Blockchain {
       cacheProvider: true,
       network: networkName,
       providerOptions: {
+        coinbasewallet: {
+          package: CoinbaseWalletSDK,
+          options: {
+            appName: 'Web 3 Modal',
+            walletConnectOptions
+          }
+        },
         walletconnect: {
           package: WalletConnectProvider,
           options: walletConnectOptions

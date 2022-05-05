@@ -109,10 +109,10 @@ class Blockchain {
             key: fortmaticKey
           }
         },
-        walletlink: {
+        coinbasewallet: {
           options: {
             appName: 'CoinbaseWallet',
-            infuraId
+            walletConnectOptions
           },
           package: CoinbaseWalletSDK
         },
@@ -209,7 +209,7 @@ class Blockchain {
   public connectTo(authType: AuthType) {
     this._log.debug('connectTo()')
     console.log('authType', authType)
-    return this._web3Modal.connectTo(authType)
+    return authType === 'coinbasewallet' ? this._web3Modal.connect() : this._web3Modal.connectTo(authType)
   }
 
   async registerWeb3ModalOnConnectCallback(callback: () => void) {

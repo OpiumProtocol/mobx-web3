@@ -112,7 +112,7 @@ class Blockchain {
         coinbasewallet: {
           options: {
             appName: 'Web 3 Modal',
-            walletConnectOptions
+            infuraId
           },
           package: CoinbaseWalletSDK
         },
@@ -208,6 +208,7 @@ class Blockchain {
 
   public connectTo(authType: AuthType) {
     this._log.debug('connectTo()')
+    console.log('authType', authType)
     return this._web3Modal.connectTo(authType)
   }
 

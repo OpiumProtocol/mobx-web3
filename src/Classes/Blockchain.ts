@@ -206,10 +206,17 @@ class Blockchain {
     return this._web3Modal.toggleModal()
   }
 
-  public connectTo(authType: AuthType) {
+  public connectTo = async (authType: AuthType) => {
     this._log.debug('connectTo()')
     console.log('authType', authType)
-    return this._web3Modal.connectTo(authType)
+    try {
+      return await this._web3Modal.connectTo(authType)
+    } catch (e) {
+      // @ts-ignore
+      const error: Error = e
+      this._log.error(error, 'Error while connecting')
+    }
+
   }
 
   async registerWeb3ModalOnConnectCallback(callback: () => void) {

@@ -112,7 +112,7 @@ class Blockchain {
         coinbasewallet: {
           options: {
             appName: 'CoinbaseWallet',
-            walletConnectOptions
+            infuraId
           },
           package: CoinbaseWalletSDK
         },

@@ -5721,17 +5721,6 @@ vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
-walletlink@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/walletlink/-/walletlink-2.0.3.tgz#8905deed6ba9a07d5dd49d709db359df571b0cc4"
-  integrity sha512-fl8LmelFpgVITdGxGkoGhCn9coIcV/8ubg2kT96DaqGi2N4BNvUjlmgOsXMuHvVUMg4kGVZeq2XKaChXBC9ySA==
-  dependencies:
-    bind-decorator "^1.0.11"
-    bn.js "^5.1.1"
-    clsx "^1.1.0"
-    preact "^10.5.9"
-    rxjs "^6.6.3"
-
 web3-bzz@1.2.11:
   version "1.2.11"
   resolved "https://registry.yarnpkg.com/web3-bzz/-/web3-bzz-1.2.11.tgz#41bc19a77444bd5365744596d778b811880f707f"

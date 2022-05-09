@@ -2,8 +2,7 @@
 import Web3Modal, {getProviderInfo} from 'web3modal'
 import { SafeAppWeb3Modal } from '@gnosis.pm/safe-apps-web3modal'
 import {action, computed, observable} from 'mobx'
-import {WalletLink, WalletLinkProvider} from 'walletlink'
-import { CoinbaseWalletSDK, CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
+import { CoinbaseWalletSDK } from '@coinbase/wallet-sdk'
 import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
@@ -16,20 +15,6 @@ import MewConnect from '@myetherwallet/mewconnect-web-client'
 import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'
 import {Logger} from './../utils/logger'
-
-interface WalletLinkOptions {
-  /** Application name */
-  appName: string
-  /** @optional Application logo image URL favicon is used if unspecified */
-  appLogoUrl?: string | null
-  /** @optional Use dark theme */
-  darkMode?: boolean
-  /** @required Your Infura account ID */
-  infuraId: string
-  /** @optional Network ID to connect to */
-  networkId: number
-}
-
 interface CoinbaseWalletSDKOptions {
   /** Application name */
   appName: string;
@@ -141,33 +126,6 @@ class Blockchain {
             return provider
           }
         },
-        // 'custom-walletlink': {
-        //   display: {
-        //     logo: 'logo',
-        //     name: 'WalletLink',
-        //     description: 'Scan with WalletLink to connect',
-        //   },
-        //   options: {
-        //     appName: 'Opium Finance',
-        //     appLogoUrl: 'logo',
-        //     darkMode: false,
-        //     infura,
-        //     networkId,
-        //   },
-        //   package: WalletLink,
-        //   connector: async (
-        //     ProviderPackage: any,
-        //     options: WalletLinkOptions
-        //   ) => {
-        //     const { appName, infuraId, networkId } = options
-        //     const walletLink = new WalletLink({
-        //       appName,
-        //     })
-        //     const provider = walletLink.makeWeb3Provider(infura, networkId)
-        //     await provider.enable()
-        //     return provider
-        //   },
-        // },
         'custom-bsc-wallet': {
           display: {
             logo: 'logo',
@@ -233,7 +191,6 @@ class Blockchain {
 
   public connectTo(authType: AuthType) {
     this._log.debug('connectTo()')
-    console.log('authType', authType)
     return this._web3Modal.connectTo(authType)
   }
 
@@ -247,8 +204,6 @@ class Blockchain {
       this.clearWallet()
       // Initialize web3modal related variables
       await this._initWeb3Modal(provider)
-      console.log('provider', provider)
-      
       callback()
     })
 

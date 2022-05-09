@@ -3,7 +3,7 @@ import Web3Modal, {getProviderInfo} from 'web3modal'
 import { SafeAppWeb3Modal } from '@gnosis.pm/safe-apps-web3modal'
 import {action, computed, observable} from 'mobx'
 // import {WalletLink, WalletLinkProvider} from 'walletlink'
-import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
+import { CoinbaseWalletSDK, makeWeb3Provider } from '@coinbase/wallet-sdk'
 import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
@@ -120,8 +120,8 @@ class Blockchain {
             infuraId
           },
           package: CoinbaseWalletSDK,
-          connector: async (ProviderPackage: any, options: WalletLinkOptions) => {
-            const provider = new ProviderPackage(options)
+          connector: async (ProviderPackage: makeWeb3Provider, options: WalletLinkOptions) => {
+            const provider = new makeWeb3Provider(options)
             await provider.enable()
             return provider
           }

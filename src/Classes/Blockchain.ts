@@ -17,18 +17,18 @@ import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Typ
 import NETWORK_NAMES from '../Constants/networks'
 import {Logger} from './../utils/logger'
 
-// interface WalletLinkOptions {
-//   /** Application name */
-//   appName: string
-//   /** @optional Application logo image URL favicon is used if unspecified */
-//   appLogoUrl?: string | null
-//   /** @optional Use dark theme */
-//   darkMode?: boolean
-//   /** @required Your Infura account ID */
-//   infuraId: string
-//   /** @optional Network ID to connect to */
-//   networkId: number
-// }
+interface WalletLinkOptions {
+  /** Application name */
+  appName: string
+  /** @optional Application logo image URL favicon is used if unspecified */
+  appLogoUrl?: string | null
+  /** @optional Use dark theme */
+  darkMode?: boolean
+  /** @required Your Infura account ID */
+  infuraId: string
+  /** @optional Network ID to connect to */
+  networkId: number
+}
 
 interface IBinanceChainWalletOptions {
   supportedChainIds: number[]
@@ -109,12 +109,22 @@ class Blockchain {
             key: fortmaticKey
           }
         },
-        coinbasewallet: {
+        'custom-coinbasewallet': {
+          display: {
+            logo: 'logo',
+            name: 'Coinbase',
+            description: 'Scan with CoinbaseWalletSDK to connect'
+          },
           options: {
             appName: 'CoinbaseWallet',
             infuraId
           },
-          package: CoinbaseWalletSDK
+          package: CoinbaseWalletSDK,
+          connector: async (ProviderPackage: any, options: WalletLinkOptions) => {
+            const provider = new ProviderPackage(options)
+            await provider.enable()
+            return provider
+          }
         },
         // 'custom-walletlink': {
         //   display: {
@@ -206,17 +216,10 @@ class Blockchain {
     return this._web3Modal.toggleModal()
   }
 
-  public connectTo = async (authType: AuthType) => {
+  public connectTo(authType: AuthType) {
     this._log.debug('connectTo()')
     console.log('authType', authType)
-    try {
-      return await this._web3Modal.connectTo(authType)
-    } catch (e) {
-      // @ts-ignore
-      const error: Error = e
-      this._log.error(error, 'Error while connecting')
-    }
-
+    return this._web3Modal.connectTo(authType)
   }
 
   async registerWeb3ModalOnConnectCallback(callback: () => void) {

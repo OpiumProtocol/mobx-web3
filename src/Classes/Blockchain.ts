@@ -39,6 +39,8 @@ interface CoinbaseWalletSDKOptions {
   darkMode?: boolean;
   /** @optional Coinbase Wallet link server URL; for most, leave it unspecified */
   linkAPIUrl?: string;
+  /** @required Your Infura account ID */
+  infuraId: string;
 }
 
 interface IBinanceChainWalletOptions {
@@ -132,8 +134,9 @@ class Blockchain {
           },
           package: CoinbaseWalletSDK,
           connector: async (ProviderPackage: any, options: CoinbaseWalletSDKOptions) => {
-            const { rpc } = walletConnectOptions
-            const provider = new ProviderPackage.makeWeb3Provider(rpc)
+            const { appName } = options
+            const coinbaseLink = new CoinbaseWalletSDK({ appName })
+            const provider = coinbaseLink.makeWeb3Provider(infura)
             await provider.enable()
             return provider
           }

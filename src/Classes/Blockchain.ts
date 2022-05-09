@@ -2,8 +2,8 @@
 import Web3Modal, {getProviderInfo} from 'web3modal'
 import { SafeAppWeb3Modal } from '@gnosis.pm/safe-apps-web3modal'
 import {action, computed, observable} from 'mobx'
-// import {WalletLink, WalletLinkProvider} from 'walletlink'
-import { CoinbaseWalletSDK, makeWeb3Provider } from '@coinbase/wallet-sdk'
+import {WalletLink, WalletLinkProvider} from 'walletlink'
+import { CoinbaseWalletSDK, CoinbaseWalletProvider } from '@coinbase/wallet-sdk'
 import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
@@ -28,6 +28,17 @@ interface WalletLinkOptions {
   infuraId: string
   /** @optional Network ID to connect to */
   networkId: number
+}
+
+interface CoinbaseWalletSDKOptions {
+  /** Application name */
+  appName: string;
+  /** @optional Application logo image URL; favicon is used if unspecified */
+  appLogoUrl?: string | null;
+  /** @optional Use dark theme */
+  darkMode?: boolean;
+  /** @optional Coinbase Wallet link server URL; for most, leave it unspecified */
+  linkAPIUrl?: string;
 }
 
 interface IBinanceChainWalletOptions {
@@ -120,8 +131,9 @@ class Blockchain {
             infuraId
           },
           package: CoinbaseWalletSDK,
-          connector: async (ProviderPackage: makeWeb3Provider, options: WalletLinkOptions) => {
-            const provider = new makeWeb3Provider(options)
+          connector: async (ProviderPackage: any, options: CoinbaseWalletSDKOptions) => {
+            const { rpc } = walletConnectOptions
+            const provider = new ProviderPackage.makeWeb3Provider(rpc)
             await provider.enable()
             return provider
           }

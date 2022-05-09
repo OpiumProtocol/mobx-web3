@@ -2,7 +2,7 @@
 import Web3Modal, {getProviderInfo} from 'web3modal'
 import { SafeAppWeb3Modal } from '@gnosis.pm/safe-apps-web3modal'
 import {action, computed, observable} from 'mobx'
-import {WalletLink, WalletLinkProvider} from 'walletlink'
+import { CoinbaseWalletSDK } from '@coinbase/wallet-sdk'
 import { BscConnector } from '@binance-chain/bsc-connector'
 // @ts-ignore
 import WalletConnectProvider from '@walletconnect/web3-provider'
@@ -15,18 +15,17 @@ import MewConnect from '@myetherwallet/mewconnect-web-client'
 import {AuthType, ClientName, ProviderName, ProviderType} from '../Constants/Types/blockchain'
 import NETWORK_NAMES from '../Constants/networks'
 import {Logger} from './../utils/logger'
-
-interface WalletLinkOptions {
+interface CoinbaseWalletSDKOptions {
   /** Application name */
-  appName: string
-  /** @optional Application logo image URL favicon is used if unspecified */
-  appLogoUrl?: string | null
+  appName: string;
+  /** @optional Application logo image URL; favicon is used if unspecified */
+  appLogoUrl?: string | null;
   /** @optional Use dark theme */
-  darkMode?: boolean
+  darkMode?: boolean;
+  /** @optional Coinbase Wallet link server URL; for most, leave it unspecified */
+  linkAPIUrl?: string;
   /** @required Your Infura account ID */
-  infuraId: string
-  /** @optional Network ID to connect to */
-  networkId: number
+  infuraId: string;
 }
 
 interface IBinanceChainWalletOptions {
@@ -52,7 +51,7 @@ class Blockchain {
   protected _log: Logger
   protected _injectedWalletChangesRefreshTime: number = 1000
 
-  protected _ethereum: WalletLinkProvider | null = null
+  // protected _ethereum: WalletLinkProvider | null = null
   @observable protected _networkId = 0
   @observable protected _requiredNetworkId = 0
   public providerName: ProviderName | null = null
@@ -108,32 +107,24 @@ class Blockchain {
             key: fortmaticKey
           }
         },
-        'custom-walletlink': {
+        'custom-coinbasewallet': {
           display: {
             logo: 'logo',
-            name: 'WalletLink',
-            description: 'Scan with WalletLink to connect',
+            name: 'Coinbase',
+            description: 'Scan with CoinbaseWalletSDK to connect'
           },
           options: {
-            appName: 'Opium Finance',
-            appLogoUrl: 'logo',
-            darkMode: false,
-            infura,
-            networkId,
+            appName: 'CoinbaseWallet',
+            infuraId
           },
-          package: WalletLink,
-          connector: async (
-            ProviderPackage: any,
-            options: WalletLinkOptions
-          ) => {
-            const { appName, infuraId, networkId } = options
-            const walletLink = new WalletLink({
-              appName,
-            })
-            const provider = walletLink.makeWeb3Provider(infura, networkId)
+          package: CoinbaseWalletSDK,
+          connector: async (ProviderPackage: any, options: CoinbaseWalletSDKOptions) => {
+            const { appName } = options
+            const coinbaseLink = new CoinbaseWalletSDK({ appName })
+            const provider = coinbaseLink.makeWeb3Provider(infura)
             await provider.enable()
             return provider
-          },
+          }
         },
         'custom-bsc-wallet': {
           display: {
